@@ -14,6 +14,8 @@ browser.menus.create({
 
 			let tmp = {};
 
+			tmp[tab.windowId] = [tab.index];
+
 			tabs.forEach( (t) => {
 				if (typeof tmp[t.windowId] === 'undefined'){
 					tmp[t.windowId] = [];
