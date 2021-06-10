@@ -10,7 +10,10 @@ browser.menus.create({
 	onclick: async function(info, tab) {
 		if(info.menuItemId.startsWith(extname)){
 			const url = new URL(tab.url);
-			const tabs = await browser.tabs.query({ url: url.origin + "/*"});
+			const tabs = await browser.tabs.query({ 
+				url: url.origin + "/*", 
+				hidden: false
+			});
 
 			let tmp = {};
 
