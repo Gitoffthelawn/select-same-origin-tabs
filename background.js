@@ -15,7 +15,7 @@ browser.menus.create({
 				hidden: false
 			});
 
-			// handle other windows where the context menu wasn't created 
+			// handle tabs (also from other windows) where the context menu was not triggerd on
 			let tmp = {};
 			tabs.forEach( (t) => {
 				if(t.id !== tab.id){ // exclude 
@@ -25,8 +25,6 @@ browser.menus.create({
 					tmp[t.windowId].push(t.index);
 				}
 			});
-
-			console.log(JSON.stringify(tmp,null,4));
 			for (const [k,v] of Object.entries(tmp)) {
 				// use != because k might not have the same type as tab.windowId  
 				if( k != tab.winodwId) {
@@ -38,7 +36,10 @@ browser.menus.create({
 				}
 			}
 
-			// process tab + window where the context menu was created from 
+			// process tab where the context menu was triggerd on 
+			if (typeof tmp[tab.windowId] === 'undefined'){
+				tmp[tab.windowId] = [];
+			}
 			tmp[tab.windowId].unshift(tab.index);
 
 			browser.tabs.highlight({
@@ -46,7 +47,6 @@ browser.menus.create({
 				tabs: tmp[tab.windowId],
 				populate: false
 			}); 
-
 			
 		}
 	}
