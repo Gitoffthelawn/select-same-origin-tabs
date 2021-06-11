@@ -18,15 +18,17 @@ browser.menus.create({
 			// handle other windows where the context menu wasn't created 
 			let tmp = {};
 			tabs.forEach( (t) => {
-				if (typeof tmp[t.windowId] === 'undefined'){
-					tmp[t.windowId] = [];
-				} 
-				tmp[t.windowId].push(t.index);
+				if(t.id !== tab.id){ // exclude 
+					if (typeof tmp[t.windowId] === 'undefined'){
+						tmp[t.windowId] = [];
+					} 
+					tmp[t.windowId].push(t.index);
+				}
 			});
 
 			console.log(JSON.stringify(tmp,null,4));
 			for (const [k,v] of Object.entries(tmp)) {
-				// use != because k is a string and not an integer
+				// use != because k might not have the same type as tab.windowId  
 				if( k != tab.winodwId) {
 					browser.tabs.highlight({
 						windowId: parseInt(k),
